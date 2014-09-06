@@ -1,0 +1,8 @@
+name: sh4869
+version: 0.1.0
+description: IRC Notice on Twitter
+author: sh4869 <nobuk4869@gmail.com>
+homepage: 
+dependencies:
+  irc: ">=1.4.5 <2.0.0" 
+
