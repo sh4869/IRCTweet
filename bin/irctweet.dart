@@ -13,17 +13,21 @@ part 'src/keys.dart';
 
 void ircTweet(TwitterKey key) {
   TweetUpdate tweeter = new TweetUpdate();
-  var config = new BotConfig(host: "irc.freenode.net", nickname: "DartIRCTweetBot");
-  var bot = new CommandBot(config);
+  
+  print("Please Input IRC Host!");
+  var host_name = stdin.readLineSync();
 
-  // Intl.defaultLocale = 'pt_BR';
-  //initializeDateFormatting("ja_JP",null);
-  var format = new DateFormat.Hms();
-  var dateString = format.format(new DateTime.now());
+  print("Please Input BOT's nickname!");
+  var bot_nickname = stdin.readLineSync();
 
   print("Please Input IRC Channel Name!");
   var channel_name = stdin.readLineSync();
-  ;
+
+
+  var config = new BotConfig(host: host_name, nickname: bot_nickname);
+  var bot = new CommandBot(config);
+
+  var format = new DateFormat.Hms();
 
   bot.register((ReadyEvent event) {
     event.join(channel_name);
@@ -36,17 +40,17 @@ void ircTweet(TwitterKey key) {
 
   bot.register((QuitEvent event) {
     print("${event.user} is Quit");
-    tweeter.update(key,"${event.user} Quit: $channel_name ($dateString)");
+    tweeter.update(key,"${event.user} Quit: $channel_name (${format.format(new DateTime.now())})");
   });
 
   bot.register((PartEvent event) {
     print("${event.user} is left");
-    tweeter.update(key,"${event.user} Left: $channel_name ($dateString)");
+    tweeter.update(key,"${event.user} Left: $channel_name (${format.format(new Datetime.now())})");
   });
 
   bot.register((JoinEvent event) {
     print("${event.user} is Join! Welcome!");
-    tweeter.update(key,"${event.user} Join: $channel_name ($dateString)");
+    tweeter.update(key,"${event.user} Join: $channel_name (${format.format(new Datetime.now())})");
   });
 
   bot.connect();
