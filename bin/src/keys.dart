@@ -1,4 +1,4 @@
-part of tweet;
+part of irctweet;
 
 /// Return Twitter API Keys
 class TwitterKey {

@@ -1,4 +1,4 @@
-part of tweet;
+part of irctweet;
 
 class TweetUpdate {
   Future<MAP> update(TwitterKey key,String text){
