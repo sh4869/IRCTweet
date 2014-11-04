@@ -7,6 +7,7 @@ import 'dart:convert' show JSON;
 import 'package:intl/intl.dart';
 import 'package:irc/irc.dart';
 import 'package:oauth/oauth.dart' as oauth;
+import 'package:json_object/json_object.dart';
 
 part 'tweeter.dart';
 part 'src/keys.dart';
@@ -55,6 +56,31 @@ void ircTweet(TwitterKey key) {
 
   bot.connect();
 }
+void setting_key(){
+  print("Set Twitter API Key");
+  stdout.write("Input Your Twitter Consumer Key\n>");
+  var consumer_key = stdin.readLineSync();
+
+  stdout.write("Input Your Twitter Consumer Sercret\n>");
+  var consumer_sercret = stdin.readLineSync();
+
+  stdout.write("Input Your Twitter Access Key\n>");
+  var access_key = stdin.readLineSync();
+
+  stdout.write("Input Your Twitter Access Sercret\n>");
+  var access_sercret = stdin.readLineSync();
+  var key_data = new JsonObject();
+  key_data["consumer_key"] = consumer_key;
+  key_data["consumer_sercret"] = consumer_sercret;
+  key_data["access_key"] = access_key;
+  key_data["access_sercret"] = access_sercret;
+  var path = Platform.environment["HOME"] + "/.irctweet/setting.json";
+  var file = new File(path);
+  if (!file.existsSync()) {
+    file.createSync(recursive: true);
+  }
+  file.writeAsStringSync(JSON.encode(key_data));
+}
 
 void main() {
   var path = Platform.environment["HOME"] + "/.irctweet/setting.json";
@@ -62,9 +88,10 @@ void main() {
   if(key_file.existsSync() == true){
     var key_json = JSON.decode(key_file.readAsStringSync());
     TwitterKey key = TwitterKey.createKey(key_json["consumer_key"],key_json["consumer_sercret"],
-                                          key_json["access_key"],key_json["access_sercret"]);
+        key_json["access_key"],key_json["access_sercret"]);
     ircTweet(key);
   }else{
     print("setting your .irctweetrc on your home directory");
+    setting_key();
   }
 }
