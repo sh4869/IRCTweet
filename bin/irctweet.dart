@@ -13,7 +13,7 @@ part 'src/keys.dart';
 
 void ircTweet(TwitterKey key) {
   TweetUpdate tweeter = new TweetUpdate();
-  
+
   print("Please Input IRC Host!");
   var host_name = stdin.readLineSync();
 
@@ -57,12 +57,14 @@ void ircTweet(TwitterKey key) {
 }
 
 void main() {
-  File keyFile = new File('.keys');
-  List<String> keys = keyFile.readAsLinesSync();
-  String con_key = keys[0];
-  String con_secret = keys[1];
-  String acc_key = keys[2];
-  String acc_secret = keys[3];
-  TwitterKey key = TwitterKey.createKey(con_key, con_secret, acc_key, acc_secret);
-  ircTweet(key);
+  var path = Platform.environment["HOME"] + "/.irctweet/setting.json";
+  var key_file = new File(path);
+  if(key_file.existsSync() == true){
+    var key_json = JSON.decode(key_file.readAsStringSync());
+    TwitterKey key = TwitterKey.createKey(key_json["consumer_key"],key_json["consumer_sercret"],
+                                          key_json["access_key"],key_json["access_sercret"]);
+    ircTweet(key);
+  }else{
+    print("setting your .irctweetrc on your home directory");
+  }
 }
