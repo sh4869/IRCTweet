@@ -57,7 +57,7 @@ void ircTweet(TwitterKey key) {
   bot.connect();
 }
 void setting_key(){
-  print("Set Twitter API Key");
+  print("Set Twitter API Key\n\n");
   stdout.write("Input Your Twitter Consumer Key\n>");
   var consumer_key = stdin.readLineSync();
 
@@ -80,6 +80,7 @@ void setting_key(){
     file.createSync(recursive: true);
   }
   file.writeAsStringSync(JSON.encode(key_data));
+  print("create Setting.json!!");
 }
 
 void main() {
