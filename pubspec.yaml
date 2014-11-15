@@ -1,5 +1,5 @@
 name: irctweet
-version: 0.2.0
+version: 0.2.1
 description: IRC Notice on Twitter
 author: sh4869 <nobuk4869@gmail.com>
 homepage: https://github.com/sh4869/IRCTweet 
@@ -7,4 +7,4 @@ dependencies:
   irc: ">=1.4.5 <2.0.0" 
   oauth: ">=0.2.0 <0.3.0"
   intl: ">=0.11.7 <0.12.0"
-  json_object: any
+  json_object: ">=1.0.18+2 <2.0.0"
