@@ -9,8 +9,8 @@ import 'package:irc/irc.dart';
 import 'package:oauth/oauth.dart' as oauth;
 import 'package:json_object/json_object.dart';
 
-part 'tweeter.dart';
-part 'src/keys.dart';
+part '_tweet.dart';
+part '_key.dart';
 
 void ircTweet(TwitterKey key) {
   TweetUpdate tweeter = new TweetUpdate();
