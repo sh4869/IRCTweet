@@ -7,8 +7,8 @@ class TwitterKey {
   oauth.Token user;
 
   static TwitterKey createKey(String conkey,String conser,String acctoken,String accsercret) {
-    
-    
+
+
     oauth.Token consumer = createToken(conkey,conser);
     oauth.Token user = createToken(acctoken,accsercret);
 
