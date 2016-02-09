@@ -1,6 +1,11 @@
-#How to USE
+IRCTweet
+======
 
-##1.Set Up Your Twitter API Key
+IRC Notification for Twitter
+
+##How to USE
+
+###1.Set Up Your Twitter API Key
 
 ```
 $pub run bin/irctweet.dart
@@ -13,7 +18,7 @@ Please Input Your
 * Twitter access_key
 * Twitter access_sercret
 
-##2.Start Notice Bot
+###2.Start Notice Bot
 
 ```
 $pub run bin/irctweet.dart
