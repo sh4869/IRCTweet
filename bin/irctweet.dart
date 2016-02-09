@@ -24,7 +24,6 @@ void ircTweet(TwitterKey key) {
   print("Please Input IRC Channel Name!");
   var channel_name = stdin.readLineSync();
 
-
   var config = new BotConfig(host: host_name, nickname: bot_nickname);
   var bot = new CommandBot(config);
 
@@ -41,22 +40,26 @@ void ircTweet(TwitterKey key) {
 
   bot.register((QuitEvent event) {
     print("${event.user} is Quit");
-    tweeter.update(key,"${event.user} Quit: $channel_name (${format.format(new DateTime.now())})");
+    tweeter.update(key,
+        "${event.user} Quit: $channel_name (${format.format(new DateTime.now())})");
   });
 
   bot.register((PartEvent event) {
     print("${event.user} is left");
-    tweeter.update(key,"${event.user} Left: $channel_name (${format.format(new Datetime.now())})");
+    tweeter.update(key,
+        "${event.user} Left: $channel_name (${format.format(new Datetime.now())})");
   });
 
   bot.register((JoinEvent event) {
     print("${event.user} is Join! Welcome!");
-    tweeter.update(key,"${event.user} Join: $channel_name (${format.format(new Datetime.now())})");
+    tweeter.update(key,
+        "${event.user} Join: $channel_name (${format.format(new Datetime.now())})");
   });
 
   bot.connect();
 }
-void setting_key(){
+
+void setting_key() {
   print("Set Twitter API Key\n\n");
   stdout.write("Input Your Twitter Consumer Key\n>");
   var consumer_key = stdin.readLineSync();
@@ -86,12 +89,15 @@ void setting_key(){
 void main() {
   var path = Platform.environment["HOME"] + "/.irctweet/setting.json";
   var key_file = new File(path);
-  if(key_file.existsSync() == true){
+  if (key_file.existsSync() == true) {
     var key_json = JSON.decode(key_file.readAsStringSync());
-    TwitterKey key = TwitterKey.createKey(key_json["consumer_key"],key_json["consumer_sercret"],
-        key_json["access_key"],key_json["access_sercret"]);
+    TwitterKey key = TwitterKey.createKey(
+        key_json["consumer_key"],
+        key_json["consumer_sercret"],
+        key_json["access_key"],
+        key_json["access_sercret"]);
     ircTweet(key);
-  }else{
+  } else {
     print("setting your .irctweetrc on your home directory");
     setting_key();
   }
