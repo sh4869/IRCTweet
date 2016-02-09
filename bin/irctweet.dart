@@ -7,7 +7,6 @@ import 'dart:convert' show JSON;
 import 'package:intl/intl.dart';
 import 'package:irc/irc.dart';
 import 'package:oauth/oauth.dart' as oauth;
-import 'package:json_object/json_object.dart';
 
 part '_tweet.dart';
 part '_key.dart';
