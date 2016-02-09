@@ -2,17 +2,14 @@ library irctweet;
 
 import 'dart:io';
 import 'dart:async';
-import 'dart:core';
 import 'dart:convert' show JSON;
 import 'package:intl/intl.dart';
 import 'package:irc/irc.dart';
-import 'package:oauth/oauth.dart' as oauth;
+import 'package:twitter/twitter.dart';
 
-part '_tweet.dart';
-part '_key.dart';
-
-void ircTweet(TwitterKey key) {
-  TweetUpdate tweeter = new TweetUpdate();
+void ircTweet(key) {
+  Twitter twitter = new Twitter(key["consumer_key"], key["consumer_sercret"],
+      key["access_key"], key["access_sercret"]);
 
   print("Please Input IRC Host!");
   var host_name = stdin.readLineSync();
@@ -34,25 +31,32 @@ void ircTweet(TwitterKey key) {
 
   bot.register((BotJoinEvent event) {
     print("Joined $channel_name ");
-    tweeter.update(key, "Joined IRCTweet Bot $channel_name");
+    twitter.request("GET", "statuses/update.json",
+        body: {"status": "Joined IRCTweet Bot $channel_name"});
   });
 
   bot.register((QuitEvent event) {
     print("${event.user} is Quit");
-    tweeter.update(key,
-        "${event.user} Quit: $channel_name (${format.format(new DateTime.now())})");
+    twitter.request("GET", "statuses/update.json", body: {
+      "status":
+          "${event.user} Quit: $channel_name (${format.format(new DateTime.now())})"
+    });
   });
 
   bot.register((PartEvent event) {
     print("${event.user} is left");
-    tweeter.update(key,
-        "${event.user} Left: $channel_name (${format.format(new Datetime.now())})");
+    twitter.request("GET", "statuses/update.json", body: {
+      "status":
+          "${event.user} Left: $channel_name (${format.format(new Datetime.now())})"
+    });
   });
 
   bot.register((JoinEvent event) {
     print("${event.user} is Join! Welcome!");
-    tweeter.update(key,
-        "${event.user} Join: $channel_name (${format.format(new Datetime.now())})");
+    twitter.request("GET", "statuses/update.json", body: {
+      "status":
+          "${event.user} Join: $channel_name (${format.format(new Datetime.now())})"
+    });
   });
 
   bot.connect();
@@ -71,7 +75,7 @@ void setting_key() {
 
   stdout.write("Input Your Twitter Access Sercret\n>");
   var access_sercret = stdin.readLineSync();
-  var key_data = new JsonObject();
+  var key_data = new Map();
   key_data["consumer_key"] = consumer_key;
   key_data["consumer_sercret"] = consumer_sercret;
   key_data["access_key"] = access_key;
@@ -89,12 +93,7 @@ void main() {
   var path = Platform.environment["HOME"] + "/.irctweet/setting.json";
   var key_file = new File(path);
   if (key_file.existsSync() == true) {
-    var key_json = JSON.decode(key_file.readAsStringSync());
-    TwitterKey key = TwitterKey.createKey(
-        key_json["consumer_key"],
-        key_json["consumer_sercret"],
-        key_json["access_key"],
-        key_json["access_sercret"]);
+    var key = JSON.decode(key_file.readAsStringSync());
     ircTweet(key);
   } else {
     print("setting your .irctweetrc on your home directory");
